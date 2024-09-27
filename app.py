@@ -79,25 +79,22 @@ if template_options:
             # Replace tags in the template
             filled_template = replace_tags(selected_template_content, st.session_state.tag_inputs)
             
-            # Display the filled template in a text area
+            # Display the filled template in a text area with a select all button
             st.subheader("Filled Template")
-            st.text_area("Generated Email", filled_template, height=150)
+            st.text_area("Generated Email", filled_template, height=150, key="generated_email")
             
-            # JavaScript code for copying to clipboard
+            # Add a "Select All" button using JavaScript
             st.markdown(f"""
-                <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
+                <button class="select-all-button" onclick="selectText()">Select All</button>
                 <script>
-                function copyToClipboard() {{
-                    var textToCopy = `{filled_template}`;
-                    navigator.clipboard.writeText(textToCopy).then(function() {{
-                        alert('Copied to clipboard');
-                    }}, function(err) {{
-                        alert('Failed to copy: ', err);
-                    }});
+                function selectText() {{
+                    var textArea = document.getElementById('generated_email');
+                    textArea.select();
+                    document.execCommand('copy');
                 }}
                 </script>
                 <style>
-                    .copy-button {{
+                    .select-all-button {{
                         display: inline-block;
                         padding: 8px 12px;
                         margin: 10px 0;
@@ -108,8 +105,10 @@ if template_options:
                         cursor: pointer;
                         border-radius: 4px;
                     }}
-                    .copy-button:hover {{
+                    .select-all-button:hover {{
                         background-color: #45a049;
                     }}
                 </style>
             """, unsafe_allow_html=True)
+
+            st.info("Click 'Select All' to select the text, then press Ctrl+C (Cmd+C on Mac) to copy it.")
