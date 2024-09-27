@@ -64,8 +64,9 @@ if template_options:
         st.write("Fill out the fields for the selected template:")
         selected_template_content = templates[selected_template]
         
-        # Extract the tag names using regex
+        # Extract the tag names using regex, but skip ${!date}
         tag_matches = re.findall(r"\${(.*?)}", selected_template_content)
+        tag_matches = [tag for tag in tag_matches if tag != "!date"]  # Exclude ${!date}
         
         # Keep track of the user input for each tag in session state
         for tag in tag_matches:
@@ -81,3 +82,26 @@ if template_options:
             # Display the filled template and allow copying
             st.subheader("Filled Template")
             st.text_area("Generated Email", filled_template, height=150)
+            
+            # Add a button to copy the generated template to clipboard
+            st.markdown(f"""
+                <button class="copy-button" onclick="navigator.clipboard.writeText(`{filled_template}`)">
+                    Copy to Clipboard
+                </button>
+                <style>
+                .copy-button {{
+                    display: inline-block;
+                    padding: 8px 12px;
+                    margin: 10px 0;
+                    font-size: 16px;
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    cursor: pointer;
+                    border-radius: 4px;
+                }}
+                .copy-button:hover {{
+                    background-color: #45a049;
+                }}
+                </style>
+            """, unsafe_allow_html=True)
