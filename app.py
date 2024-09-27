@@ -79,29 +79,9 @@ if template_options:
             # Replace tags in the template
             filled_template = replace_tags(selected_template_content, st.session_state.tag_inputs)
             
-            # Display the filled template and allow copying
+            # Display the filled template and allow copying via text area
             st.subheader("Filled Template")
             st.text_area("Generated Email", filled_template, height=150)
-            
-            # Add a button to copy the generated template to clipboard
-            st.markdown(f"""
-                <button class="copy-button" onclick="navigator.clipboard.writeText(`{filled_template}`)">
-                    Copy to Clipboard
-                </button>
-                <style>
-                .copy-button {{
-                    display: inline-block;
-                    padding: 8px 12px;
-                    margin: 10px 0;
-                    font-size: 16px;
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    cursor: pointer;
-                    border-radius: 4px;
-                }}
-                .copy-button:hover {{
-                    background-color: #45a049;
-                }}
-                </style>
-            """, unsafe_allow_html=True)
+
+            # Streamlit doesn't directly support clipboard in browser, so we tell users to copy manually
+            st.info("You can copy the text above manually by selecting it.")
