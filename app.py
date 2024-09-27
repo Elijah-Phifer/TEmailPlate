@@ -79,36 +79,8 @@ if template_options:
             # Replace tags in the template
             filled_template = replace_tags(selected_template_content, st.session_state.tag_inputs)
             
-            # Display the filled template in a text area with a select all button
+            # Display the filled template in a text area
             st.subheader("Filled Template")
-            st.text_area("Generated Email", filled_template, height=150, key="generated_email")
-            
-            # Add a "Select All" button using JavaScript
-            st.markdown(f"""
-                <button class="select-all-button" onclick="selectText()">Select All</button>
-                <script>
-                function selectText() {{
-                    var textArea = document.getElementById('generated_email');
-                    textArea.select();
-                    document.execCommand('copy');
-                }}
-                </script>
-                <style>
-                    .select-all-button {{
-                        display: inline-block;
-                        padding: 8px 12px;
-                        margin: 10px 0;
-                        font-size: 16px;
-                        background-color: #4CAF50;
-                        color: white;
-                        border: none;
-                        cursor: pointer;
-                        border-radius: 4px;
-                    }}
-                    .select-all-button:hover {{
-                        background-color: #45a049;
-                    }}
-                </style>
-            """, unsafe_allow_html=True)
+            st.text_area("Generated Email", filled_template, height=150)
 
-            st.info("Click 'Select All' to select the text, then press Ctrl+C (Cmd+C on Mac) to copy it.")
+            st.info("You can copy the text above manually by selecting it.")
